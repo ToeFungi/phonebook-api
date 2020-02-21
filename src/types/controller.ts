@@ -1,4 +1,5 @@
-import { Logger } from 'bunyan'
+import * as Logger from 'bunyan'
+
 import { Router } from 'express'
 
 abstract class Controller {

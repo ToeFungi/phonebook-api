@@ -4,6 +4,8 @@
 interface DatabaseConfiguration {
   url: string
   engine: string
+  username: string
+  password: string
 }
 
 export { DatabaseConfiguration }
