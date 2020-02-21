@@ -16,6 +16,7 @@ abstract class Controller {
    */
   protected constructor(protected logger: Logger) {
     this.router = Router()
+    this.setRoutes()
   }
 
   /**

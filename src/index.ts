@@ -1,19 +1,25 @@
-import * as express from 'express'
-
 import { configuration } from './configuration'
+import { AppFactory } from './factories/app-factory'
 import { LoggerFactory } from './factories/logger-factory'
 import { HealthController } from './controllers/health-controller'
+import { ExpressServer } from './services/express-server'
+import { DatabaseConnectionFactory } from './factories/database-connection-factory'
 
-const server = express()
+const startService = async () => {
+  const loggerFactory = new LoggerFactory(configuration.logger)
+  const processLogger = loggerFactory.getNamedLogger('phonebook')
 
-const loggerFactory = new LoggerFactory(configuration.logger)
-const logger = loggerFactory.getNamedLogger('phonebook')
+  const database = await DatabaseConnectionFactory.getInstance(configuration.db)
 
-const controller = new HealthController(loggerFactory)
-controller.setRoutes()
+  const healthController = new HealthController(database, loggerFactory)
 
-server.use('/health', controller.getRoutes())
+  const app = AppFactory.getInstance(healthController)
+  const expressServer = new ExpressServer(app, loggerFactory, configuration.server)
 
-server.listen(configuration.server.port, () => {
-  logger.info(`Server available on port ${configuration.server.port}`)
-})
+  expressServer.run()
+    .catch((error: Error) => processLogger.error('Process error', { message: error.message }))
+}
+
+Promise.resolve()
+  .then(startService)
+  .catch(console.error)
