@@ -30,9 +30,9 @@ class HealthController extends Controller {
     const sendResponse = (message: object) => response.json(message)
       .status(200)
 
-    const determineConnection = () => this.database.isConnected()
+    const determineConnection = (): boolean => this.database.isConnected()
 
-    const formatResponse = (isConnected) => ({
+    const formatResponse = (isConnected: boolean): object => ({
       healthController: 'healthy',
       databaseConnection: isConnected ? 'healthy' : 'error'
     })

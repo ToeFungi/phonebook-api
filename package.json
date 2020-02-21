@@ -5,6 +5,8 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "mocha",
+    "build": "tsc",
+    "start": "node dist/index.js",
     "watch:dev": "nodemon -w src"
   },
   "keywords": [
@@ -27,5 +29,8 @@
     "ts-node": "8.6.2",
     "nodemon": "2.0.2",
     "typescript": "3.7.5"
+  },
+  "engines": {
+    "node": "12.x"
   }
 }
