@@ -15,7 +15,7 @@ const configuration: AppConfiguration = {
     service: process.env.LOGGER_SERVICE
   },
   server: {
-    port: process.env.SERVER_PORT
+    port: process.env.PORT
   }
 }
 
