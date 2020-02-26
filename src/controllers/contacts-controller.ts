@@ -52,7 +52,7 @@ class ContactsController extends Controller {
       .status(200)
 
     this.logger.debug('Getting a specific contact', { contactId })
-    return Promise.resolve({})
+    return this.contactsService.getContact(contactId)
       .then(sendResponse)
   }
 }
