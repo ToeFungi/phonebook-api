@@ -1,6 +1,6 @@
 {
   "name": "phonebook-api",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A simple phonebook API that will store contacts for a user",
   "main": "src/index.ts",
   "scripts": {
