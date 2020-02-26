@@ -4,7 +4,6 @@
   "description": "A simple phonebook API that will store contacts for a user",
   "main": "src/index.ts",
   "scripts": {
-    "test": "mocha",
     "build": "tsc",
     "start": "node dist/index.js",
     "watch:dev": "nodemon -w src/index.ts"
