@@ -1,5 +1,0 @@
-class ContactRepository {
-
-}
-
-export { ContactRepository }
