@@ -21,19 +21,38 @@ class ContactsController extends Controller {
   public setRoutes(): void {
     this.logger.info('Setting up routes for controller')
     this.router.get('/', this.getContacts.bind(this))
+    this.router.get('/:contactId', this.getContact.bind(this))
   }
 
   /**
    * Get all the contacts
    */
-  public getContacts(request: Request, response: Response) {
+  public getContacts(request: Request, response: Response): Promise<Response> {
     /**
      * Send the response back to the client
      */
     const sendResponse = (contacts: object) => response.json(contacts)
       .status(200)
 
+    this.logger.debug('Getting all contacts')
     return this.contactsService.getContacts()
+      .then(sendResponse)
+  }
+
+  /**
+   * Get a specific contact
+   */
+  public getContact(request: Request, response: Response): Promise<Response> {
+    const contactId = request.params.contactId
+
+    /**
+     * Send the response back to the client
+     */
+    const sendResponse = (contacts: object) => response.json(contacts)
+      .status(200)
+
+    this.logger.debug('Getting a specific contact', { contactId })
+    return Promise.resolve({})
       .then(sendResponse)
   }
 }
