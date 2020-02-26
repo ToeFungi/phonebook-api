@@ -2,11 +2,11 @@ import { configuration } from './configuration'
 import { AppFactory } from './factories/app-factory'
 import { ExpressServer } from './services/express-server'
 import { LoggerFactory } from './factories/logger-factory'
+import { ContactsService } from './services/contacts-service'
 import { HealthController } from './controllers/health-controller'
 import { ContactsController } from './controllers/contacts-controller'
 import { ContactsRepository } from './repositories/contacts-repository'
 import { DatabaseConnectionFactory } from './factories/database-connection-factory'
-import { ContactsService } from './services/contacts-service'
 
 /**
  * Start the HTTP service

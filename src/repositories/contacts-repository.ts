@@ -1,6 +1,6 @@
 import * as Logger from 'bunyan'
 
-import { MongoClient, MongoError } from 'mongodb'
+import { FilterQuery, MongoClient, MongoError } from 'mongodb'
 
 import { RawContact } from '../models/contacts/raw-contact'
 import { LoggerFactory } from '../factories/logger-factory'
@@ -14,12 +14,23 @@ class ContactsRepository {
    * The child logger used in this repository
    */
   private logger: Logger
+  /**
+   * The database that will be queried
+   */
+  private readonly databaseName: string
+  /**
+   * The collection that will be queried
+   */
+  private readonly collectionName: string
 
   /**
    * @constructor
    */
-  constructor(protected database: MongoClient, protected config: DatabaseConfiguration, loggerFactory: LoggerFactory) {
+  constructor(protected database: MongoClient, config: DatabaseConfiguration, loggerFactory: LoggerFactory) {
     this.logger = loggerFactory.getNamedLogger('contact-repository')
+
+    this.databaseName = config.name
+    this.collectionName = 'contacts'
   }
 
   /**
@@ -27,8 +38,6 @@ class ContactsRepository {
    */
   public getContacts(): Promise<RawContact[]> {
     const query = {}
-    const collectionName = 'contacts'
-    const databaseName = this.config.name
 
     /**
      * Tap and log the response and return the raw contact data
@@ -46,11 +55,46 @@ class ContactsRepository {
       throw error
     }
 
-    this.logger.debug('Attempting to retrieve all contacts', { collectionName, databaseName })
-    return this.database.db(databaseName)
-      .collection(collectionName)
-      .find(query)
+    this.logger.debug('Attempting to retrieve all contacts', {
+      collection: this.collectionName,
+      database: this.databaseName
+    })
+    return this.database.db(this.databaseName)
+      .collection(this.collectionName)
+      .find<RawContact>(query)
       .toArray()
+      .then(tapResponse)
+      .catch(tapError)
+  }
+
+  /**
+   * Retrieve a specific contact's details from the database
+   */
+  public getContact(contactId: string): Promise<RawContact> {
+    const query: FilterQuery<RawContact> = {
+      userId: contactId
+    }
+
+    /**
+     * Tap and log the response and return the raw contact data
+     */
+    const tapResponse = (result: RawContact): RawContact => {
+      this.logger.debug('Successfully retrieved specific contact')
+      return result
+    }
+
+    /**
+     * Tap and log the error and rethrow to let it bubble up
+     */
+    const tapError = (error: MongoError): never => {
+      this.logger.error('Error occurred whilst retrieving specific contact', { message: error.errmsg })
+      throw error
+    }
+
+    this.logger.debug('Attempting to retrieve specific contact', { contactId })
+    return this.database.db(this.databaseName)
+      .collection(this.collectionName)
+      .findOne<RawContact>(query)
       .then(tapResponse)
       .catch(tapError)
   }
