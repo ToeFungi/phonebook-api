@@ -7,6 +7,10 @@ interface DatabaseConfiguration {
    */
   url: string
   /**
+   * The name of the database to access
+   */
+  name: string
+  /**
    * The type of database engine that will be used
    */
   engine: string

@@ -1,19 +1,36 @@
 import { configuration } from './configuration'
 import { AppFactory } from './factories/app-factory'
+import { ExpressServer } from './services/express-server'
 import { LoggerFactory } from './factories/logger-factory'
 import { HealthController } from './controllers/health-controller'
-import { ExpressServer } from './services/express-server'
+import { ContactsController } from './controllers/contacts-controller'
+import { ContactsRepository } from './repositories/contacts-repository'
 import { DatabaseConnectionFactory } from './factories/database-connection-factory'
+import { ContactsService } from './services/contacts-service'
 
+/**
+ * Start the HTTP service
+ */
 const startService = async () => {
+  // Logging
   const loggerFactory = new LoggerFactory(configuration.logger)
   const processLogger = loggerFactory.getNamedLogger('phonebook')
 
+  // Database
   const database = await DatabaseConnectionFactory.getInstance(configuration.db)
 
-  const healthController = new HealthController(database, loggerFactory)
+  // Repositories
+  const contactsRepository = new ContactsRepository(database, configuration.db, loggerFactory)
 
-  const app = AppFactory.getInstance(healthController)
+  // Services
+  const contactsService = new ContactsService(contactsRepository, loggerFactory)
+
+  // Controllers
+  const healthController = new HealthController(database, loggerFactory)
+  const contactsController = new ContactsController(contactsService, loggerFactory)
+
+  // Application
+  const app = AppFactory.getInstance(contactsController, healthController)
   const expressServer = new ExpressServer(app, loggerFactory, configuration.server)
 
   expressServer.run()

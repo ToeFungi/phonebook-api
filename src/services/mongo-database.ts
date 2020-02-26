@@ -1,5 +1,0 @@
-class MongoDatabase {
-
-}
-
-export { MongoDatabase }
