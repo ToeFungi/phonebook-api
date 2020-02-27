@@ -1,0 +1,88 @@
+{
+	"info": {
+		"_postman_id": "64b528c6-4c27-43bc-910d-54297ffcf9bb",
+		"name": "Phonebook API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Contacts",
+			"item": [
+				{
+					"name": "Contact",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						},
+						"description": "The retrieval of a specific contact by ID is available on a GET endpoint and the contact's ID should be provided in the\r\npath. This will then return a JSON object along with a 200. If no contact can be found corresponding to the given ID,\r\nthen a status of 404 will be returned with a JSON body that includes a message indicating that the contact could not be\r\nfound.\r\n\r\n`[GET] /contacts/:contactId`\r\n\r\nResponse 200\r\n```json\r\n{\r\n  \"email\": \"john.smith@gmail.com\",\r\n  \"mobile\": \"0828097121\",\r\n  \"contactId\": \"5e4fe9c61c9d440000f3af57\",\r\n  \"nickname\": \"Johnny\",\r\n  \"lastname\": \"Smith\",\r\n  \"firstname\": \"John\",\r\n  \"mobileIDC\": \"+27\"\r\n}\r\n```\r\n\r\nResponse 404\r\n```json\r\n{\r\n  \"error\": \"NOT_FOUND\",\r\n  \"message\": \"Contact could not be found with the provided ID\"\r\n}\r\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "All Contacts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						},
+						"description": "You can retrieve all of the contacts available by not specifying an ID and this will return a JSON body that contains\r\nan array of contacts available. The response code will be a 200.\r\n\r\n`[GET] /contacts`\r\n\r\nResponse 200\r\n```json\r\n[\r\n  {\r\n    \"email\": \"john.smith@gmail.com\",\r\n    \"mobile\": \"0828097121\",\r\n    \"contactId\": \"5e4fe9c61c9d440000f3af57\",\r\n    \"nickname\": \"Johnny\",\r\n    \"lastname\": \"Smith\",\r\n    \"firstname\": \"John\",\r\n    \"mobileIDC\": \"+27\"\r\n  }\r\n]\r\n```"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				},
+				"description": "You can query the health status of the application conveniently on the following endpoint.\r\n\r\n`[GET] /health/health`\r\n\r\nResponse 200\r\n```json\r\n{\r\n  \"healthController\": \"healthy\",\r\n  \"databaseConnection\": \"healthy\"\r\n}\r\n```"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "640af756-423e-4583-8683-e337c95102ac",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "36118fab-7cdb-4b2a-86c3-d02de00abc10",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "296676a1-67c6-4b33-b3e7-e591d027afd4",
+			"key": "host",
+			"value": "https://phb-phonebook-api.herokuapp.com",
+			"type": "string"
+		},
+		{
+			"id": "8a107356-197a-48a5-9fc6-fb46a7038332",
+			"key": "port",
+			"value": "443",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
