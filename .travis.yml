@@ -26,4 +26,5 @@ jobs:
         provider: heroku
         api_key:
           secure: "$HEROKU_API_KEY"
+        app: "phb-phonebook-api"
         skip_cleanup: true
