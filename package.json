@@ -17,6 +17,7 @@
   "author": "Alex Pickering",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "8.2.0",
     "bunyan": "1.8.12",
     "mongodb": "3.5.3",
     "express": "4.17.1"
@@ -25,7 +26,6 @@
     "@types/bunyan": "1.8.6",
     "@types/express": "4.17.2",
     "@types/mongodb": "3.3.16",
-    "dotenv": "8.2.0",
     "ts-node": "8.6.2",
     "nodemon": "2.0.2",
     "typescript": "3.7.5"
