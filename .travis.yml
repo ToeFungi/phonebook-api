@@ -5,12 +5,14 @@ node_js:
 
 cache:
   directories:
+    - "$HOME/.sonar/cache"
     - "node_modules"
     - "build"
 
 stages:
   - setup
   - build
+  - sonar
   - deploy
 
 jobs:
@@ -21,6 +23,13 @@ jobs:
     - stage: build
       script:
         - npm run build
+    - stage: sonar
+      script:
+        - sonar-scanner
+      addons:
+        sonarcloud:
+          token:
+            secure: "$SONAR_API_KEY"
     - stage: deploy
       deploy:
         provider: heroku

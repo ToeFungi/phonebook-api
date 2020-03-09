@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added an MIT license for anyone to use the application
 - Added `/collections` directory which includes postman and insomnia workspaces for accessing the API
+- Added `Loggly` to the bunyan logger for external logging on production
+- Added `sonar` cloud analysis in the CI
 
 ### Updated
 - Fleshed out the README a bit more. Documented the endpoints, environment etc...
