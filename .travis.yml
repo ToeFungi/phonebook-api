@@ -28,8 +28,8 @@ jobs:
         - sonar-scanner -X
       addons:
         sonarcloud:
-          token:
-            secure: "$SONAR_API_KEY"
+          organization: "skaleb"
+          token: "$SONAR_API_KEY"
     - stage: deploy
       deploy:
         provider: heroku
