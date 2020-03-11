@@ -16,6 +16,9 @@ function isObject(obj: any): boolean {
 class StreamCorrelationIdDecorator extends EventEmitter implements NodeJS.WritableStream {
   writable: boolean = true
 
+  /**
+   * @constructor
+   */
   constructor(private stream: NodeJS.WritableStream, private getContextVariable: (param: string) => string) {
     super()
   }
