@@ -5,12 +5,14 @@ node_js:
 
 cache:
   directories:
-    - "$HOME/.sonar/cache"
-    - "node_modules"
     - "build"
+    - "coverage"
+    - "node_modules"
+    - "$HOME/.sonar/cache"
 
 stages:
   - setup
+  - test
   - build
   - sonar
   - deploy
@@ -20,6 +22,9 @@ jobs:
     - stage: setup
       script:
         - npm i
+    - stage: test
+      script:
+        - npm run coverage
     - stage: build
       script:
         - npm run build

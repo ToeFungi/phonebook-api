@@ -12,6 +12,8 @@ abstract class Controller {
   protected router: Router
 
   /**
+   * The controller constructor is responsible for setting up the router and initialising the routes to the the
+   * implementing controller
    * @constructor
    */
   protected constructor(protected logger: Logger) {

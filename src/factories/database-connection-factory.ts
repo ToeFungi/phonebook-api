@@ -9,15 +9,16 @@ class DatabaseConnectionFactory {
   /**
    * Get a database instance
    */
-  public static getInstance(config: DatabaseConfiguration): Promise<MongoClient> {
-    const mongoDB = new MongoClient(`mongodb+srv://${config.url}`, {
+  public static getInstance(configuration: DatabaseConfiguration): MongoClient {
+    const uri = `mongodb+srv://${ configuration.url }`
+    const options = {
       auth: {
-        user: config.username,
-        password: config.password
+        user: configuration.username,
+        password: configuration.password
       }
-    })
+    }
 
-    return mongoDB.connect()
+    return new MongoClient(uri, options)
   }
 }
 
