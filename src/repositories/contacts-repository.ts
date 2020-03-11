@@ -26,17 +26,17 @@ class ContactsRepository {
   /**
    * @constructor
    */
-  constructor(protected database: MongoClient, config: DatabaseConfiguration, loggerFactory: LoggerFactory) {
+  constructor(protected database: MongoClient, configuration: DatabaseConfiguration, loggerFactory: LoggerFactory) {
     this.logger = loggerFactory.getNamedLogger('contact-repository')
 
-    this.databaseName = config.name
+    this.databaseName = configuration.name
     this.collectionName = 'contacts'
   }
 
   /**
    * Retrieve all contact data from the database
    */
-  public getContacts(): Promise<RawContact[]> {
+  public getAllContacts(): Promise<RawContact[]> {
     const query = {}
 
     /**
@@ -70,16 +70,16 @@ class ContactsRepository {
   /**
    * Retrieve a specific contact's details from the database
    */
-  public getContact(contactId: string): Promise<RawContact> {
+  public getContactById(id: string): Promise<RawContact> {
     const query: FilterQuery<RawContact> = {
-      userId: contactId
+      userId: id
     }
 
     /**
      * Tap and log the response and return the raw contact data
      */
     const tapResponse = (result: RawContact): RawContact => {
-      this.logger.debug('Successfully retrieved specific contact')
+      this.logger.debug('Successfully retrieved specific contact', { result })
       return result
     }
 
@@ -91,7 +91,7 @@ class ContactsRepository {
       throw error
     }
 
-    this.logger.debug('Attempting to retrieve specific contact', { contactId })
+    this.logger.debug('Attempting to retrieve specific contact', { contactId: id })
     return this.database.db(this.databaseName)
       .collection(this.collectionName)
       .findOne<RawContact>(query)

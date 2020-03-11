@@ -1,0 +1,10 @@
+{
+  "coverage": true,
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "src/types/**/*.ts",
+    "src/models/**.*.ts"
+  ]
+}

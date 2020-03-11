@@ -1,0 +1,20 @@
+[
+  {
+    "email": "some-email",
+    "mobile": "some-mobile",
+    "userId": "some-user-id",
+    "nickname": "some-nickname",
+    "lastname": "some-lastname",
+    "firstname": "some-firstname",
+    "mobileIDC": "some-mobile-idc"
+  },
+  {
+    "email": "some-other-email",
+    "mobile": "some-other-mobile",
+    "userId": "some-other-user-id",
+    "nickname": "some-other-nickname",
+    "lastname": "some-other-lastname",
+    "firstname": "some-other-firstname",
+    "mobileIDC": "some-other-mobile-idc"
+  }
+]
