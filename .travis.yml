@@ -25,7 +25,7 @@ jobs:
         - npm run build
     - stage: sonar
       script:
-        - sonar-scanner -X
+        - sonar-scanner
       addons:
         sonarcloud:
           organization: "skaleb"
