@@ -28,17 +28,12 @@ class StreamCorrelationIdDecorator extends EventEmitter implements NodeJS.Writab
    */
   public write(record: any): boolean {
     try {
-      const logObject: any = isObject(record) ? record : JSON.parse(record)
-      const correlationId: string = this.getContextVariable('correlationId')
-      console.log('correlationId', { correlationId })
+      const loggerData: any = isObject(record) ? record : JSON.parse(record)
 
-      if (correlationId) {
-        logObject.correlationId = correlationId
-      }
+      loggerData.correlationId = this.getContextVariable('correlationId') ?? ''
 
-      return this.stream.write(JSON.stringify(logObject) + '\n')
+      return this.stream.write(JSON.stringify(loggerData) + '\n')
     } catch (_) {
-      console.log('failing')
       return this.stream.write(record)
     }
   }
