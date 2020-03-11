@@ -11,10 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Implemented `Loggly` into the logger factory for centralised logging on production
 - Added `sonarcloud` analysis in the CI for code quality and vulnerability checks
 - Created unit tests for several classes
-  - database-connection-factory
-  - contacts-repository
-  - contacts-service
   - express-server
+  - contacts-service
+  - contacts-repository
+  - database-connection-factory
+  - stream-correlation-id-decorator
 - Implemented correlation ID with middleware to requests and logs
 
 ### Updated

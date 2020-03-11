@@ -37,6 +37,7 @@
     "@types/mongodb": "3.3.16",
     "@types/sinon-chai": "3.2.3",
     "@types/chai-as-promised": "7.1.2",
+    "nyc": "15.0.0",
     "chai": "4.2.0",
     "mocha": "7.1.0",
     "sinon": "9.0.1",
