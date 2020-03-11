@@ -32,7 +32,7 @@ describe('StreamCorrelationIdDecorator', () => {
 
       streamCorrelationIdDecorator.write(testRecord)
 
-      stdout.write.should.have.been.calledWith('{"hello":"world","correlationId":""}\n')
+      stdout.write.should.have.been.calledOnceWithExactly('{"hello":"world","correlationId":""}\n')
     })
 
     it('writes correlationId coming from httpContext to the decorated stream', () => {
@@ -40,7 +40,15 @@ describe('StreamCorrelationIdDecorator', () => {
 
       streamCorrelationIdDecorator.write(testRecord)
 
-      stdout.write.should.have.been.calledWith('{"hello":"world","correlationId":"123"}\n')
+      stdout.write.should.have.been.calledOnceWithExactly('{"hello":"world","correlationId":"123"}\n')
+    })
+
+    it('writes the record to the stream if there is an error', () => {
+      getContextVariable.throws(Error)
+
+      streamCorrelationIdDecorator.write(testRecord)
+
+      stdout.write.should.have.been.calledOnceWithExactly({ correlationId: '123', hello: 'world' })
     })
   })
 

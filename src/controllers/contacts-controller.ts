@@ -34,9 +34,22 @@ class ContactsController extends Controller {
     const sendResponse = (contacts: object) => response.json(contacts)
       .status(200)
 
+    /**
+     * Handles thrown errors and return appropriate status and payload
+     */
+    const handleError = (error: Error) => {
+      const payload = {
+        message: error.message
+      }
+
+      return response.json(payload)
+        .status(400)
+    }
+
     this.logger.debug('Getting all contacts')
     return this.contactsService.getContacts()
       .then(sendResponse)
+      .catch(handleError)
   }
 
   /**
@@ -51,9 +64,22 @@ class ContactsController extends Controller {
     const sendResponse = (contacts: object) => response.json(contacts)
       .status(200)
 
+    /**
+     * Handles thrown errors and return appropriate status and payload
+     */
+    const handleError = (error: Error) => {
+      const payload = {
+        message: error.message
+      }
+
+      return response.json(payload)
+        .status(400)
+    }
+
     this.logger.debug('Getting a specific contact', { contactId })
     return this.contactsService.getContact(contactId)
       .then(sendResponse)
+      .catch(handleError)
   }
 }
 

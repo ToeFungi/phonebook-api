@@ -13,7 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Created unit tests for several classes
   - express-server
   - contacts-service
+  - health-controller
   - contacts-repository
+  - contacts-controller
   - correlation-id-middleware
   - database-connection-factory
   - stream-correlation-id-decorator
