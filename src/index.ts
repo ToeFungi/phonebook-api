@@ -14,10 +14,11 @@ import { DatabaseConnectionFactory } from './factories/database-connection-facto
 const startService = async () => {
   // Logging
   const loggerFactory = new LoggerFactory(configuration.logger)
-  const processLogger = loggerFactory.getNamedLogger('phonebook')
+  const processLogger = loggerFactory.getNamedLogger('phonebook-api')
 
   // Database
   const database = await DatabaseConnectionFactory.getInstance(configuration.db)
+    .connect()
 
   // Repositories
   const contactsRepository = new ContactsRepository(database, configuration.db, loggerFactory)

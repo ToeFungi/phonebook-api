@@ -28,21 +28,29 @@ class ContactsService {
     /**
      * Format the retrieved raw contact data and return a new array with the appropriately formatted contact data
      */
-    const formatResponse = (rawContacts: RawContact[]) => rawContacts.map((rawContact: RawContact): Contact => ({
-      email: rawContact.email,
-      firstname: rawContact.firstname,
-      lastname: rawContact.lastname,
-      mobile: rawContact.mobile,
-      mobileIDC: rawContact.mobileIDC,
-      nickname: rawContact.nickname,
-      userId: rawContact.userId
-    }))
+    const formatResponse = (rawContacts: RawContact[]): Contact[] => {
+      if (!rawContacts.length) {
+        this.logger.warn('No contacts could be found for the user')
+        return []
+      }
+
+      this.logger.debug('Formatting retrieved contacts for the user')
+      return rawContacts.map((rawContact: RawContact): Contact => ({
+        email: rawContact.email,
+        firstname: rawContact.firstname,
+        lastname: rawContact.lastname,
+        mobile: rawContact.mobile,
+        mobileIDC: rawContact.mobileIDC,
+        nickname: rawContact.nickname,
+        userId: rawContact.userId
+      }))
+    }
 
     /**
      * Tap and log the response
      */
     const tapResponse = (contacts: Contact[]): Contact[] => {
-      this.logger.debug('Successfully retrieved all contacts', { count: contacts.length })
+      this.logger.debug('Successfully retrieved all contacts', { contacts, count: contacts.length })
       return contacts
     }
 
@@ -55,7 +63,7 @@ class ContactsService {
     }
 
     this.logger.debug('Attempting to retrieve all contacts')
-    return this.contactsRepository.getContacts()
+    return this.contactsRepository.getAllContacts()
       .then(formatResponse)
       .then(tapResponse)
       .catch(tapError)
@@ -68,21 +76,29 @@ class ContactsService {
     /**
      * Format the retrieved raw contact data and return appropriately formatted contact
      */
-    const formatResponse = (rawContact: RawContact): Contact => ({
-      email: rawContact.email,
-      mobile: rawContact.mobile,
-      userId: rawContact.userId,
-      nickname: rawContact.nickname,
-      lastname: rawContact.lastname,
-      firstname: rawContact.firstname,
-      mobileIDC: rawContact.mobileIDC
-    })
+    const formatResponse = (rawContact: RawContact): Contact => {
+      if (!rawContact) {
+        this.logger.error('No contact could be found with the ID specified', { contactId })
+        throw new Error('Contact not found with specified ID')
+      }
+
+      this.logger.debug('Formatting retrieved client')
+      return {
+        email: rawContact.email,
+        mobile: rawContact.mobile,
+        userId: rawContact.userId,
+        nickname: rawContact.nickname,
+        lastname: rawContact.lastname,
+        firstname: rawContact.firstname,
+        mobileIDC: rawContact.mobileIDC
+      }
+    }
 
     /**
      * Tap and log the response
      */
     const tapResponse = (contact: Contact): Contact => {
-      this.logger.debug('Successfully retrieved the specific contact', { contact })
+      this.logger.debug('Successfully retrieved the specific contact', { contact, contactId })
       return contact
     }
 
@@ -98,7 +114,7 @@ class ContactsService {
     }
 
     this.logger.debug('Attempting to retrieve a specific contact', { contactId })
-    return this.contactsRepository.getContact(contactId)
+    return this.contactsRepository.getContactById(contactId)
       .then(formatResponse)
       .then(tapResponse)
       .catch(tapError)

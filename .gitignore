@@ -1,6 +1,7 @@
-node_modules
-coverage
 .env
-.idea
 dist
+.idea
 build
+coverage
+.nyc_output
+node_modules

@@ -39,7 +39,7 @@ class ExpressServer implements Server {
     /**
      * Determine if the instance is already running
      */
-    const isRunning = () => {
+    const isRunning = (): void => {
       if (this.server) {
         this.logger.error('Server instance is already running')
         throw new Error('Server instance already running')
@@ -49,9 +49,9 @@ class ExpressServer implements Server {
     /**
      * Start the server
      */
-    const startServer = () => {
+    const startServer = (): void => {
       this.server = this.app.listen(this.port, () => {
-        this.logger.info(`Server available on port ${this.port}`)
+        this.logger.info(`Server available on port ${ this.port }`)
       })
     }
 
