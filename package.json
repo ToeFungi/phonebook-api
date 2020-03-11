@@ -5,10 +5,11 @@
   "main": "src/index.ts",
   "scripts": {
     "build": "tsc",
-    "start": "node build/index.js",
     "test": "mocha",
+    "start": "node build/index.js",
     "heroku-postbuild": "npm run build",
-    "watch:dev": "nodemon -w src/index.ts"
+    "watch:dev": "nodemon -w src/index.ts",
+    "coverage": "nyc --reporter=lcov mocha"
   },
   "keywords": [
     "Phonebook",
