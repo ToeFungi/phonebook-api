@@ -16,17 +16,18 @@ function isObject(obj: any): boolean {
 class StreamCorrelationIdDecorator extends EventEmitter implements NodeJS.WritableStream {
   writable: boolean = true
 
-  constructor(private stream: NodeJS.WritableStream, private getContextVariable: (param: string) => any) {
+  constructor(private stream: NodeJS.WritableStream, private getContextVariable: (param: string) => string) {
     super()
   }
 
   /**
    * Write the record to the supplied writable stream with the additional `correlationId` if available.
    */
-  write(record: any): boolean {
+  public write(record: any): boolean {
     try {
       const logObject: any = isObject(record) ? record : JSON.parse(record)
       const correlationId: string = this.getContextVariable('correlationId')
+      console.log('correlationId', { correlationId })
 
       if (correlationId) {
         logObject.correlationId = correlationId
@@ -34,6 +35,7 @@ class StreamCorrelationIdDecorator extends EventEmitter implements NodeJS.Writab
 
       return this.stream.write(JSON.stringify(logObject) + '\n')
     } catch (_) {
+      console.log('failing')
       return this.stream.write(record)
     }
   }
@@ -41,7 +43,7 @@ class StreamCorrelationIdDecorator extends EventEmitter implements NodeJS.Writab
   /**
    * @inheritdoc
    */
-  end(record?: any): void {
+  public end(record?: any): void {
     return this.stream.end(record)
   }
 }

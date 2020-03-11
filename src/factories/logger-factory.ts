@@ -1,5 +1,6 @@
 import * as Logger from 'bunyan'
 import * as BunyanLoggly from 'bunyan-loggly'
+import * as HTTPContext from 'express-http-context'
 
 import { LoggerConfiguration } from '../models/configuration/logger-configuration'
 import { StreamCorrelationIdDecorator } from '../lib/stream-correlation-id-decorator'
@@ -39,7 +40,7 @@ class LoggerFactory {
   }
 
   /**
-   * Gets a stream used for logging raw output
+   * Get a configured raw stream for bunyan to use
    */
   private getRawStream(configuration: LoggerConfiguration): NodeJS.WritableStream {
     const loggly = new BunyanLoggly({
@@ -47,9 +48,7 @@ class LoggerFactory {
       subdomain: configuration.logglySubdomain
     }) as NodeJS.WritableStream
 
-    return new StreamCorrelationIdDecorator(loggly, () => {
-      return 'some-correlation-id'
-    })
+    return new StreamCorrelationIdDecorator(loggly, HTTPContext.get)
   }
 }
 
