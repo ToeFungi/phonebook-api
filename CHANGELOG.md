@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - database-connection-factory
   - stream-correlation-id-decorator
 - Implemented correlation ID with middleware to requests and logs
+- Add coverage tests to CI for code analysis
 
 ### Updated
 - Fleshed out the README a bit more. Documented the endpoints, environment etc...
