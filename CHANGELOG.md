@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - express-server
   - contacts-service
   - contacts-repository
+  - correlation-id-middleware
   - database-connection-factory
   - stream-correlation-id-decorator
 - Implemented correlation ID with middleware to requests and logs
