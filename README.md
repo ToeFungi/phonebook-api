@@ -7,7 +7,9 @@
 This simple application was created for the sole purpose of being a portfolio application. It serves no real world
 purpose outside of this scope. The application takes the form of a NodeJS application that utilises TypeScript and
 provides a RESTful Express API. It integrates with MongoDB as the datasource of choice and is hosted on Heroku.
-Deployments are automated on a push to master through Travis CI and code analysis is provided through SonarCloud.
+Deployments are automated on a push to master through Travis CI and code analysis is provided through SonarCloud. All
+logging is centralised on Loggly with appropriate correlation ID's, either provided or generated, to trace requests 
+through the system.
 
 ## Table of Contents
 - [Get Started](#get-started)
