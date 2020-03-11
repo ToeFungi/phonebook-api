@@ -1,4 +1,9 @@
 # Phonebook API
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=phonebook-rest-api&metric=alert_status)](https://sonarcloud.io/dashboard?id=phonebook-rest-api)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=phonebook-rest-api&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=phonebook-rest-api)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=phonebook-rest-api&metric=code_smells)](https://sonarcloud.io/dashboard?id=phonebook-rest-api)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=phonebook-rest-api&metric=coverage)](https://sonarcloud.io/dashboard?id=phonebook-rest-api)
+
 This simple application was created for the sole purpose of being a portfolio application. It serves no real world
 purpose outside of this scope. The application takes the form of a NodeJS application that utilises TypeScript and
 provides a RESTful Express API. It integrates with MongoDB as the datasource of choice and is hosted on Heroku.
@@ -16,6 +21,7 @@ Deployments are automated on a push to master through Travis CI and code analysi
 - [Follow Development](#follow-development)
 - [Environment Variables](#environment-variables)
 - [Testing](#testing)
+- [Logging](#logging)
 
 ## Get Started
 You can get started with your own locally hosted instance of this application quite quickly and painlessly.
@@ -141,6 +147,10 @@ $ npm run test
 $ npm run coverage
 $ npm run lint
 ```
+
+## Logging
+This application has centralised logging using [Loggly](http://loggly.com/) and all production logs by default are sent
+through to it.
 
 ## License
 MIT License
