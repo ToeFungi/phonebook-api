@@ -8,14 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added an MIT license for anyone to use the application
 - Added `/collections` directory which includes postman and insomnia workspaces for accessing the API
-- Added `Loggly` to the bunyan logger for external logging on production
-- Added `sonar` cloud analysis in the CI
-- Created test suite for several classes
+- Implemented `Loggly` into the logger factory for centralised logging on production
+- Added `sonarcloud` analysis in the CI for code quality and vulnerability checks
+- Created unit tests for several classes
   - database-connection-factory
   - contacts-repository
   - contacts-service
   - express-server
-- Added correlation ID with middleware to requests and logs
+- Implemented correlation ID with middleware to requests and logs
 
 ### Updated
 - Fleshed out the README a bit more. Documented the endpoints, environment etc...
