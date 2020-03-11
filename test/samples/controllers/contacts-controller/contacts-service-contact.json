@@ -1,0 +1,9 @@
+{
+  "email": "some-email",
+  "mobile": "some-mobile",
+  "userId": "some-user-id",
+  "nickname": "some-nickname",
+  "lastname": "some-lastname",
+  "firstname": "some-firstname",
+  "mobileIDC": "some-mobile-idc"
+}
