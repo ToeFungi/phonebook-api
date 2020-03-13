@@ -145,4 +145,24 @@ describe('ContactsRepository', () => {
         })
     })
   })
+
+  describe('#insertContact', () => {
+    it('resolves when a valid raw contact is supplied and the contact is inserted intp the database', () => {
+      database.insertOne
+        .onFirstCall()
+        .resolves()
+
+      return contactsRepository.insertContact(rawContacts[0])
+        .should.become(rawContacts[0])
+    })
+
+    it('rejects when an error occurs whilst inserting the raw contact into the database', () => {
+      database.insertOne
+        .onFirstCall()
+        .rejects(new Error('Something strange is afoot.'))
+
+      return contactsRepository.insertContact(rawContacts[0])
+        .should.be.rejectedWith(Error, 'Something strange is afoot.')
+    })
+  })
 })

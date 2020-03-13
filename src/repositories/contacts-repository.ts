@@ -1,6 +1,6 @@
 import * as Logger from 'bunyan'
 
-import { FilterQuery, MongoClient, MongoError } from 'mongodb'
+import { FilterQuery, MongoClient, MongoError, ObjectId } from 'mongodb'
 
 import { RawContact } from '../models/contacts/raw-contact'
 import { LoggerFactory } from '../factories/logger-factory'
@@ -71,9 +71,13 @@ class ContactsRepository {
    * Retrieve a specific contact's details from the database
    */
   public getContactById(id: string): Promise<RawContact> {
-    const query: FilterQuery<RawContact> = {
-      userId: id
+    const objectId = new ObjectId(id)
+    const query: FilterQuery<any> = {
+      _id: {
+        $in: [objectId]
+      }
     }
+
 
     /**
      * Tap and log the response and return the raw contact data
@@ -91,10 +95,38 @@ class ContactsRepository {
       throw error
     }
 
-    this.logger.debug('Attempting to retrieve specific contact', { contactId: id })
+    this.logger.debug('Attempting to retrieve specific contact', { contactId: id, query })
     return this.database.db(this.databaseName)
       .collection(this.collectionName)
       .findOne<RawContact>(query)
+      .then(tapResponse)
+      .catch(tapError)
+  }
+
+  /**
+   * Insert a new contact into the database
+   */
+  public insertContact(rawContact: RawContact): Promise<RawContact> {
+    /**
+     * Tap log the response of inserting a contact and return the raw contact
+     */
+    const tapResponse = () => {
+      this.logger.debug('Successfully inserted raw contact into the database', { rawContact })
+      return rawContact
+    }
+
+    /**
+     * Tap log and rethrow the error to bubble up
+     */
+    const tapError = (error: MongoError): never => {
+      this.logger.error('Error occurred whilst inserting a raw contact into the database', { message: error.errmsg })
+      throw error
+    }
+
+    this.logger.debug('Attempting to insert raw contact into the database', { rawContact })
+    return this.database.db(this.databaseName)
+      .collection<RawContact>(this.collectionName)
+      .insertOne(rawContact)
       .then(tapResponse)
       .catch(tapError)
   }

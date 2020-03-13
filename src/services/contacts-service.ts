@@ -1,4 +1,5 @@
 import * as Logger from 'bunyan'
+import * as moment from 'moment'
 
 import { Contact } from '../models/contacts/contact'
 import { RawContact } from '../models/contacts/raw-contact'
@@ -116,6 +117,44 @@ class ContactsService {
     this.logger.debug('Attempting to retrieve a specific contact', { contactId })
     return this.contactsRepository.getContactById(contactId)
       .then(formatResponse)
+      .then(tapResponse)
+      .catch(tapError)
+  }
+
+  /**
+   * Create a new contact, format it appropriately and attempt to insert it into the database
+   */
+  public createContact(contact: Contact): Promise<Contact> {
+    const createdAt = moment()
+      .utc()
+      .format()
+
+    const formattedContact = {
+      ...contact,
+      createdAt,
+      updatedAt: createdAt
+    } as RawContact
+
+    /**
+     * Tap log the response and return the contact
+     */
+    const tapResponse = (): Contact => {
+      this.logger.debug('Successfully created and stored a new contact', { contact: formattedContact })
+      return contact
+    }
+
+    /**
+     * Tap log and rethrow the error to bubble up
+     */
+    const tapError = (error: Error): never => {
+      this.logger.error('An error occurred whilst attempting to create a newly formatted contact', {
+        message: error.message
+      })
+      throw error
+    }
+
+    this.logger.debug('Attempting to create newly formatted contact', { formattedContact })
+    return this.contactsRepository.insertContact(formattedContact)
       .then(tapResponse)
       .catch(tapError)
   }
