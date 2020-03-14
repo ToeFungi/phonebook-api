@@ -105,4 +105,38 @@ describe('ContactsController', () => {
         })
     })
   })
+
+  describe('#createContact', () => {
+    it('resolves with appropriate status code and the newly created contact', () => {
+      contactsService.createContact
+        .onFirstCall()
+        .resolves(contactData)
+
+      return contactsController.createContact(request, response)
+        .should.become(response)
+        .then(() => {
+          response.statusCode.should.deep.equal(201)
+          response._getJSONData()
+            .should.deep.equal(contactData)
+        })
+    })
+
+    it('resolves with appropriate status code and error message when the contact could not be created', () => {
+      const errorMessage = {
+        message: 'Something strange is afoot.'
+      }
+
+      contactsService.createContact
+        .onFirstCall()
+        .rejects(new Error(errorMessage.message))
+
+      return contactsController.createContact(request, response)
+        .should.become(response)
+        .then(() => {
+          response.statusCode.should.deep.equal(400)
+          response._getJSONData()
+            .should.deep.equal(errorMessage)
+        })
+    })
+  })
 })

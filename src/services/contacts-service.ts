@@ -31,19 +31,19 @@ class ContactsService {
      */
     const formatResponse = (rawContacts: RawContact[]): Contact[] => {
       if (!rawContacts.length) {
-        this.logger.warn('No contacts could be found for the user')
+        this.logger.warn('No contacts could be found for the user', { rawContacts })
         return []
       }
 
       this.logger.debug('Formatting retrieved contacts for the user')
       return rawContacts.map((rawContact: RawContact): Contact => ({
+        userId: rawContact._id,
         email: rawContact.email,
-        firstname: rawContact.firstname,
-        lastname: rawContact.lastname,
         mobile: rawContact.mobile,
-        mobileIDC: rawContact.mobileIDC,
         nickname: rawContact.nickname,
-        userId: rawContact.userId
+        lastname: rawContact.lastname,
+        firstname: rawContact.firstname,
+        mobileIDC: rawContact.mobileIDC
       }))
     }
 
@@ -85,9 +85,9 @@ class ContactsService {
 
       this.logger.debug('Formatting retrieved client')
       return {
+        userId: rawContact._id,
         email: rawContact.email,
         mobile: rawContact.mobile,
-        userId: rawContact.userId,
         nickname: rawContact.nickname,
         lastname: rawContact.lastname,
         firstname: rawContact.firstname,
@@ -136,10 +136,26 @@ class ContactsService {
     } as RawContact
 
     /**
+     * Formatting the newly created raw contact
+     */
+    const formatResponse = (rawContact: RawContact): Contact => {
+      this.logger.debug('Formatting newly created raw contact')
+      return {
+        userId: rawContact._id,
+        email: rawContact.email,
+        mobile: rawContact.mobile,
+        nickname: rawContact.nickname,
+        lastname: rawContact.lastname,
+        firstname: rawContact.firstname,
+        mobileIDC: rawContact.mobileIDC
+      }
+    }
+
+    /**
      * Tap log the response and return the contact
      */
-    const tapResponse = (): Contact => {
-      this.logger.debug('Successfully created and stored a new contact', { contact: formattedContact })
+    const tapResponse = (contact: Contact): Contact => {
+      this.logger.debug('Successfully created a new contact', { contact })
       return contact
     }
 
@@ -155,6 +171,7 @@ class ContactsService {
 
     this.logger.debug('Attempting to create newly formatted contact', { formattedContact })
     return this.contactsRepository.insertContact(formattedContact)
+      .then(formatResponse)
       .then(tapResponse)
       .catch(tapError)
   }

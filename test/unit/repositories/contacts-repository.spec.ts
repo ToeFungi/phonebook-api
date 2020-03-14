@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb'
 import { createSandbox } from 'sinon'
 
 import { loggerMock } from '../../support/mocks/logger-mock'
@@ -98,9 +99,9 @@ describe('ContactsRepository', () => {
   })
 
   describe('#getContactById', () => {
-    const id = 'some-contact-id'
+    const id = '5e6cc4af8c68101b20e3440e'
     const query = {
-      userId: id
+      _id: new ObjectId(id)
     }
 
     it('resolves when the contact is found with the specified ID', () => {
@@ -147,10 +148,14 @@ describe('ContactsRepository', () => {
   })
 
   describe('#insertContact', () => {
-    it('resolves when a valid raw contact is supplied and the contact is inserted intp the database', () => {
+    it('resolves when a valid raw contact is supplied and the contact is inserted into the database', () => {
+      const response = {
+        insertedId: 'some-user-id'
+      }
+
       database.insertOne
         .onFirstCall()
-        .resolves()
+        .resolves(response)
 
       return contactsRepository.insertContact(rawContacts[0])
         .should.become(rawContacts[0])

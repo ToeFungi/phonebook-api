@@ -1,6 +1,9 @@
+import { set, reset } from 'mockdate'
 import { createSandbox } from 'sinon'
 
 import { loggerMock } from '../../support/mocks/logger-mock'
+import { Contact } from '../../../src/models/contacts/contact'
+import { RawContact } from '../../../src/models/contacts/raw-contact'
 import { LoggerFactory } from '../../../src/factories/logger-factory'
 import { ContactsService } from '../../../src/services/contacts-service'
 import { ContactsRepository } from '../../../src/repositories/contacts-repository'
@@ -13,12 +16,15 @@ import * as rawContacts from '../../samples/services/contacts-service/contacts-r
 describe('ContactsService', () => {
   const sandbox = createSandbox()
   const logger = loggerMock(sandbox)
+  const date = '2020-03-14T09:59:54Z'
 
   let loggerFactory: any
   let contactsRepository: any
   let contactsService: ContactsService
 
   beforeEach(() => {
+    set(date)
+
     loggerFactory = sandbox.createStubInstance(LoggerFactory)
     contactsRepository = sandbox.createStubInstance(ContactsRepository)
 
@@ -29,6 +35,7 @@ describe('ContactsService', () => {
   })
 
   afterEach(() => {
+    reset()
     sandbox.restore()
   })
 
@@ -106,6 +113,50 @@ describe('ContactsService', () => {
         .should.be.rejectedWith(Error, 'Something strange is afoot.')
         .then(() => {
           contactsRepository.getContactById.should.have.been.calledOnceWithExactly(contactId)
+        })
+    })
+  })
+
+  describe('#createContact', () => {
+    it('resolves with a newly created contact', () => {
+      const insertionContact = {
+        createdAt: '2020-03-14T09:59:54Z',
+        email: 'some-email',
+        firstname: 'some-firstname',
+        lastname: 'some-lastname',
+        mobile: 'some-mobile',
+        mobileIDC: 'some-mobile-idc',
+        nickname: 'some-nickname',
+        updatedAt: '2020-03-14T09:59:54Z',
+        userId: 'some-id'
+      }
+
+      contactsRepository.insertContact
+        .onFirstCall()
+        .resolves(rawContact)
+
+      return contactsService.createContact(contact)
+        .should.become(contact)
+        .then(() => {
+          contactsRepository.insertContact.should.have.been.calledOnceWithExactly(insertionContact)
+        })
+    })
+
+    it('rejects when an error occurred whilst creating the new contact', () => {
+      const contact = {} as Contact
+      const formattedContact = {
+        updatedAt: date,
+        createdAt: date
+      } as RawContact
+
+      contactsRepository.insertContact
+        .onFirstCall()
+        .rejects(new Error('Something strange is afoot.'))
+
+      return contactsService.createContact(contact)
+        .should.be.rejectedWith(Error, 'Something strange is afoot.')
+        .then(() => {
+          contactsRepository.insertContact.should.have.been.calledOnceWithExactly(formattedContact)
         })
     })
   })

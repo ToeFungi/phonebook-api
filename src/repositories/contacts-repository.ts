@@ -1,6 +1,6 @@
 import * as Logger from 'bunyan'
 
-import { FilterQuery, MongoClient, MongoError, ObjectId } from 'mongodb'
+import { FilterQuery, InsertOneWriteOpResult, MongoClient, MongoError, ObjectId } from 'mongodb'
 
 import { RawContact } from '../models/contacts/raw-contact'
 import { LoggerFactory } from '../factories/logger-factory'
@@ -72,10 +72,8 @@ class ContactsRepository {
    */
   public getContactById(id: string): Promise<RawContact> {
     const objectId = new ObjectId(id)
-    const query: FilterQuery<any> = {
-      _id: {
-        $in: [objectId]
-      }
+    const query: FilterQuery<object> = {
+      _id: objectId
     }
 
 
@@ -110,9 +108,12 @@ class ContactsRepository {
     /**
      * Tap log the response of inserting a contact and return the raw contact
      */
-    const tapResponse = () => {
+    const tapResponse = (response: InsertOneWriteOpResult<RawContact>): RawContact => {
       this.logger.debug('Successfully inserted raw contact into the database', { rawContact })
-      return rawContact
+      return {
+        ...rawContact,
+        userId: response.insertedId
+      }
     }
 
     /**

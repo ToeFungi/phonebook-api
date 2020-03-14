@@ -2,7 +2,7 @@
   {
     "email": "some-email",
     "mobile": "some-mobile",
-    "userId": "some-user-id",
+    "userId": "some-id",
     "nickname": "some-nickname",
     "lastname": "some-lastname",
     "firstname": "some-firstname",
@@ -11,7 +11,7 @@
   {
     "email": "some-other-email",
     "mobile": "some-other-mobile",
-    "userId": "some-other-user-id",
+    "userId": "some-other-id",
     "nickname": "some-other-nickname",
     "lastname": "some-other-lastname",
     "firstname": "some-other-firstname",
