@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-  - "10"
+  - "12"
 
 cache:
   directories:
@@ -12,6 +12,8 @@ cache:
 
 stages:
   - setup
+  - audit
+  - lint
   - test
   - build
   - sonar
@@ -22,6 +24,12 @@ jobs:
     - stage: setup
       script:
         - npm i
+    - stage: audit
+      script:
+        - npm audit --production
+    - stage: lint
+      script:
+        - npm run lint
     - stage: test
       script:
         - npm run coverage

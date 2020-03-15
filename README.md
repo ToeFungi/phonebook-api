@@ -129,19 +129,24 @@ run time.
 
 | Name              | Description                                                                                    |
 |-------------------|------------------------------------------------------------------------------------------------|
+| PORT              | The port that the application will be exposed on once hosted.                                  | 
+| DATABASE_URL      | The URL to be used to connect to the given database.                                           |
+| DATABASE_NAME     | The name of the database that will be used.                                                    |
 | DATABASE_ENGINE   | The database engine that the application will be connecting to.                                |
 | DATABASE_USERNAME | The username credential to access the database.                                                |
 | DATABASE_PASSWORD | The password credential to access the database.                                                |
-| DATABASE_NAME     | The name of the database that will be used.                                                    |
-| DATABASE_URL      | The URL to be used to connect to the given database.                                           |
-| LOGGER_SERVICE    | The name for the basic application level logger which will be used to spawn all child loggers. |
 | LOGGER_LEVEL      | The level of logging required. info/debug/trace are most common.                               |
-| PORT              | The port that the application will be exposed on once hosted.                                  |
+| LOGGER_SERVICE    | The name for the basic application level logger which will be used to spawn all child loggers. |
+| LOGGER_LOGGLY_TOKEN     | The token used for authentication on Loggly                                              |
+| LOGGER_LOGGLY_SUBDOMAIN | The subdomain used for authentication on Loggly                                          |
 
 ## Testing
-This project does not _yet_ have any tests HOWEVER, it will be getting a full test suite along with a sonar code
-analysis before being officially released into the wild. There will be a link to the sonar page available here and there
-shall be badges to indicate at a glance what the status of the project is.
+This project uses the `mocha` testing framework to run all tests. It makes use of the `chai` assertion library as well
+as `chai-as-promised` for all asynchronous assertions. For stubbing, the project makes use of `sinon`. All of these
+libraries are configured in `test/support/setup.spec.ts`. This README includes a badge indicating the current total
+code coverage and more details are available on Sonar itself.
+
+To run these tests locally, the below commands can be used.
 
 ```bash
 $ npm audit

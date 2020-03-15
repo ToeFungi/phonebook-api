@@ -1,4 +1,5 @@
 import * as express from 'express'
+import * as helmet from 'helmet'
 import * as HTTPContext from 'express-http-context'
 
 import { HealthController } from '../controllers/health-controller'
@@ -16,6 +17,7 @@ class AppFactory {
                             healthController: HealthController): express.Express {
     const app: express.Express = express()
 
+    app.use(helmet())
     app.use(HTTPContext.middleware)
     app.use(CorrelationIdMiddleware.getMiddleware())
 
