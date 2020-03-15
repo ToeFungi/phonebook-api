@@ -1,5 +1,7 @@
 # Phonebook API
+[![Build Status](https://travis-ci.org/ToeFungi/phonebook-api.svg?branch=master)](https://travis-ci.org/ToeFungi/phonebook-api)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=phonebook-rest-api&metric=alert_status)](https://sonarcloud.io/dashboard?id=phonebook-rest-api)
+![David](https://img.shields.io/david/ToeFungi/phonebook-api)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=phonebook-rest-api&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=phonebook-rest-api)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=phonebook-rest-api&metric=code_smells)](https://sonarcloud.io/dashboard?id=phonebook-rest-api)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=phonebook-rest-api&metric=coverage)](https://sonarcloud.io/dashboard?id=phonebook-rest-api)
